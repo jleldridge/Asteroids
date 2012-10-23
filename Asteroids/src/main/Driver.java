@@ -41,7 +41,6 @@ public class Driver {
 		// the canvas graphics
 		Graphics cg = game.canvas.getGraphics();
 
-		// TODO: control the speed of the game loop
 		while (true) {
 			//to limit fps and game speed
 			double start = System.currentTimeMillis();
@@ -59,7 +58,7 @@ public class Driver {
 
 			cg.drawImage(screen, 0, 0, null);
 
-			//my attempt at limiting game loop speed buy just syncing
+			//my attempt at limiting game loop speed by just syncing
 			//update speed with fps. Works fairly well, though I can see
 			//where it's a problem: the ship becomes less responsive
 			//to commands when the frames per second is set to a lower value
