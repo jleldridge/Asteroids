@@ -32,7 +32,7 @@ public class Player {
 		this.x = x;
 		this.y = y;
 		try{
-			BufferedImage spriteSheet = ImageIO.read(new File("C:/Users/Mosrael/Workshop/Asteroids/playerShip.png"));
+			BufferedImage spriteSheet = ImageIO.read(new File("playerShip.png"));
 			sprite = new Sprite(spriteSheet, WIDTH, HEIGHT, 12, 6);
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -41,7 +41,7 @@ public class Player {
 		deathSprites = new BufferedImage[3];
 		for(int i = 0; i < 3; i++){
 			try{
-			deathSprites[i] = ImageIO.read(new File("C:/Users/Mosrael/Workshop/Asteroids/ShipDeathframe" + (i+1) + ".png"));
+			deathSprites[i] = ImageIO.read(new File("ShipDeathframe" + (i+1) + ".png"));
 			}catch(Exception e){
 				System.out.println(e.getMessage());
 			}

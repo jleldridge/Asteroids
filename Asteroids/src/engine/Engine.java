@@ -29,8 +29,7 @@ public class Engine {
 
 	public Engine() {
 		try {
-			gameOver = ImageIO.read(new File(
-					"C:/Users/Mosrael/Workshop/Asteroids/game_over.jpg"));
+			gameOver = ImageIO.read(new File("game_over.jpg"));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

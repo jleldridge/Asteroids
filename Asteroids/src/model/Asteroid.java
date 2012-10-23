@@ -28,7 +28,7 @@ public class Asteroid {
 		this.y = y;
 		
 		try{
-			BufferedImage spriteSheet = ImageIO.read(new File("C:/Users/Mosrael/Workshop/Asteroids/asteroid64.png"));
+			BufferedImage spriteSheet = ImageIO.read(new File("asteroid64.png"));
 			sprite = new Sprite(spriteSheet, 64, 64, 6, 5);
 		}catch(Exception e){
 			System.out.println(e.getMessage());
