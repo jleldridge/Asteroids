@@ -10,11 +10,14 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import controller.KeyController;
+
 import engine.Engine;
 
-public class Asteroids extends JFrame implements KeyListener{
+public class Asteroids extends JFrame{
 	public Engine engine;
 	public Canvas canvas;
+	KeyController controller;
 	boolean isRunning = true;
 
 	public Asteroids() {
@@ -41,30 +44,12 @@ public class Asteroids extends JFrame implements KeyListener{
 		// make the jframe visible
 		setVisible(true);
 		
-		canvas.addKeyListener(this);
-		engine = new Engine();
+		controller = new KeyController();
+		canvas.addKeyListener(controller);
+		engine = new Engine(controller);
 	}
-
-	@Override
-	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ESCAPE){
-			isRunning = !isRunning;
-			System.out.println(isRunning);
-		}
-		else
-			engine.keyPressed(e);
+	
+	public void restartGame(){
+		engine = new Engine(controller);
 	}
-
-	@Override
-	public void keyReleased(KeyEvent e) {
-		engine.keyReleased(e);
-
-	}
-
-	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// NOT USED IN THIS GAME
-
-	}
-
 }

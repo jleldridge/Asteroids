@@ -9,6 +9,8 @@ import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 
+import controller.KeyController;
+
 import model.Asteroid;
 import model.Bullet;
 import model.GameSpace;
@@ -16,60 +18,24 @@ import model.Player;
 
 public class Engine {
 	GameSpace space;
-	boolean rotateCW = false;
-	boolean rotateCCW = false;
-	boolean boost = false;
-	boolean shoot = false;
 	public boolean dead = false;
 	public int shipDeathCounter = 0;
 	public long score = 0;
-	int framesBetweenAsteroids = 120;
-	int framesBetweenAsteroidRotations = 5;
-	BufferedImage gameOver;
-
-	public Engine() {
+	private int framesBetweenAsteroids = 120;
+	private int framesBetweenAsteroidRotations = 5;
+	private BufferedImage gameOver;
+	private KeyController controller;
+	
+	public Engine(KeyController controller) {
 		try {
 			gameOver = ImageIO.read(new File("game_over.jpg"));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
-
+		
+		this.controller = controller;
 		// create the game space (which will initialize the player)
 		space = new GameSpace();
-	}
-
-	public void keyPressed(KeyEvent e) {
-		int code = e.getKeyCode();
-
-		if (code == KeyEvent.VK_RIGHT) {
-			rotateCW = true;
-			rotateCCW = false;
-		} else if (code == KeyEvent.VK_LEFT) {
-			rotateCCW = true;
-			rotateCW = false;
-		}
-
-		if (code == KeyEvent.VK_UP) {
-			boost = true;
-		}
-
-		if (code == KeyEvent.VK_SPACE) {
-			shoot = true;
-		}
-	}
-
-	public void keyReleased(KeyEvent e) {
-		int code = e.getKeyCode();
-
-		if (code == KeyEvent.VK_RIGHT) {
-			rotateCW = false;
-		} else if (code == KeyEvent.VK_LEFT) {
-			rotateCCW = false;
-		}
-
-		if (code == KeyEvent.VK_UP) {
-			boost = false;
-		}
 	}
 
 	public void update() {
@@ -87,16 +53,19 @@ public class Engine {
 
 		if (!dead) {
 			// check what controls have been pressed
-			if (boost) {
+			if (controller.isBoosting()) {
 				player.boost();
 			}
-			if (shoot) {
+			if (controller.isShooting()) {
 				space.addBullet(player.shoot());
-				shoot = false;
+				controller.setShooting(false);
 			}
-			if (rotateCW) {
+			
+			//check which movement key was the last one pressed
+			int code = controller.getKeysDown().isEmpty() ? -1 : controller.getKeysDown().peek();
+			if (code == KeyEvent.VK_RIGHT) {
 				player.rotateCW();
-			} else if (rotateCCW) {
+			} else if (code == KeyEvent.VK_LEFT) {
 				player.rotateCCW();
 			}
 
@@ -153,7 +122,9 @@ public class Engine {
 
 			// asteroid with bullets
 			Iterator<Bullet> biter = bullets.iterator();
-
+			
+			//getting illegal state exception when shooting too fast
+			//and having a bullet collide with an asteroid
 			while (biter.hasNext()) {
 				Bullet b = biter.next();
 

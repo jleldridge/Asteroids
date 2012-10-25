@@ -71,7 +71,7 @@ public class Driver {
 				}catch(Exception e){
 					System.out.println("well that didn't work :(");
 				}
-				game.engine = new Engine();
+				game.restartGame();
 			}
 			if((end-start) < (1000/FRAMES_PER_SECOND)){
 				try{
